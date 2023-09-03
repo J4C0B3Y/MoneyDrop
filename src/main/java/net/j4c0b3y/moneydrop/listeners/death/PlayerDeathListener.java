@@ -16,7 +16,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class PlayerDeathListener implements Listener {
-
     private final MoneyDrop plugin = MoneyDrop.getInstance();
     private final YamlDocument settings = plugin.getSettings();
 

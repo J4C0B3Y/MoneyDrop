@@ -7,7 +7,6 @@ import org.bukkit.entity.Entity;
 
 @UtilityClass
 public class MythicUtils {
-
     public boolean isMythicMob(Entity entity) {
         return getMythicMob(entity) != null;
     }

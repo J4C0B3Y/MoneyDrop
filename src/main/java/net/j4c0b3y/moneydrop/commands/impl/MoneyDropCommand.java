@@ -13,7 +13,6 @@ import java.util.List;
 
 @SuppressWarnings("SpellCheckingInspection")
 public class MoneyDropCommand extends Command {
-
     private final MoneyDrop plugin;
     private final MiniMessage mini;
     private final YamlDocument settings;

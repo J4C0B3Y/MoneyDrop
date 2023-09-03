@@ -11,7 +11,6 @@ import java.util.List;
 
 @UtilityClass
 public class Parties {
-
     private final MoneyDrop plugin = MoneyDrop.getInstance();
     private final YamlDocument settings = plugin.getSettings();
 

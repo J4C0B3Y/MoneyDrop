@@ -25,7 +25,6 @@ import java.math.RoundingMode;
 import java.util.UUID;
 
 public class CollectListener implements Listener {
-
     private final MoneyDrop plugin = MoneyDrop.getInstance();
     private final YamlDocument settings = plugin.getSettings();
 

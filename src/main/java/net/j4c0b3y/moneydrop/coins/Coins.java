@@ -9,7 +9,6 @@ import java.util.*;
 
 @UtilityClass
 public class Coins {
-
     private static final MoneyDrop plugin = MoneyDrop.getInstance();
 
     public List<Coin> getAll() {

@@ -9,7 +9,6 @@ import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
 
 public class Hologram {
-
     @Getter private ArmorStand entity;
     @Getter private Location location;
     @Getter private String text;
@@ -63,5 +62,4 @@ public class Hologram {
         entity.remove();
         this.entity = null;
     }
-
 }

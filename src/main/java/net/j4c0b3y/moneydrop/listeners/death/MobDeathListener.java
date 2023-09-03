@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Random;
 
 public class MobDeathListener implements Listener {
-
     private final MoneyDrop plugin = MoneyDrop.getInstance();
     private final YamlDocument settings = plugin.getSettings();
     private final Random random = new Random();

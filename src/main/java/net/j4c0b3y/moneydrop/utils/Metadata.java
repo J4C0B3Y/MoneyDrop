@@ -10,7 +10,6 @@ import java.util.Optional;
 
 @UtilityClass
 public class Metadata {
-
     private static final MoneyDrop plugin = MoneyDrop.getInstance();
 
     public Optional<Object> get(Metadatable object, String key) {

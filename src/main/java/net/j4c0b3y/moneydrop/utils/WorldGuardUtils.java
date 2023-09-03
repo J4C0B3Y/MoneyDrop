@@ -14,7 +14,6 @@ import java.util.Collection;
 
 @UtilityClass
 public class WorldGuardUtils {
-
     public boolean checkFlag(Player player, StateFlag flag, StateFlag.State state) {
         try {
             RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();

@@ -8,7 +8,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ItemMergeEvent;
 
 public class MergeListener implements Listener {
-
     private final YamlDocument settings = MoneyDrop.getInstance().getSettings();
 
     @EventHandler

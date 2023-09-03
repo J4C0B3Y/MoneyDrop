@@ -28,31 +28,23 @@ import java.util.Objects;
 
 public class MoneyDrop extends JavaPlugin {
     @Getter private static MoneyDrop instance;
-
     @Getter private YamlDocument settings;
-
     @Getter private BukkitAudiences adventure;
     @Getter private MiniMessage mini;
-
     @Getter private Economy economy;
-
     @Getter private boolean mmoHook = false;
     @Getter private MMOCoreAPI mmo;
-
     @Getter private boolean worldGuardHook = false;
     @Getter private StateFlag playerFlag;
     @Getter private StateFlag mobFlag;
-
     @Getter private boolean mythicHook = false;
 
     private final CommandManager commands = new CommandManager();
-
 
     @Override @SuppressWarnings("SpellCheckingInspection")
     public void onLoad() {
         try {
             FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
-
 
             playerFlag = new StateFlag("moneydrop-players", true);
             mobFlag = new StateFlag("moneydrop-mobs", true);
@@ -139,7 +131,6 @@ public class MoneyDrop extends JavaPlugin {
         } catch (ClassNotFoundException exception) {
             getLogger().warning("MythicMobs not found!");
         }
-
     }
 
     private void registerCommands() {
