@@ -1,4 +1,4 @@
-package net.j4c0b3y.moneydrop;
+package net.j4c0b3y.ultimatecoins;
 
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.flags.StateFlag;
@@ -6,13 +6,13 @@ import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import lombok.Getter;
 import net.Indyuce.mmocore.api.MMOCoreAPI;
-import net.j4c0b3y.moneydrop.commands.CommandManager;
-import net.j4c0b3y.moneydrop.commands.impl.MoneyDropCommand;
-import net.j4c0b3y.moneydrop.listeners.CollectListener;
-import net.j4c0b3y.moneydrop.listeners.MergeListener;
-import net.j4c0b3y.moneydrop.listeners.death.MobDeathListener;
-import net.j4c0b3y.moneydrop.listeners.death.PlayerDeathListener;
-import net.j4c0b3y.moneydrop.utils.ExceptionUtils;
+import net.j4c0b3y.ultimatecoins.commands.CommandManager;
+import net.j4c0b3y.ultimatecoins.commands.impl.MoneyDropCommand;
+import net.j4c0b3y.ultimatecoins.listeners.CollectListener;
+import net.j4c0b3y.ultimatecoins.listeners.MergeListener;
+import net.j4c0b3y.ultimatecoins.listeners.death.MobDeathListener;
+import net.j4c0b3y.ultimatecoins.listeners.death.PlayerDeathListener;
+import net.j4c0b3y.ultimatecoins.utils.ExceptionUtils;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
@@ -26,8 +26,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
-public class MoneyDrop extends JavaPlugin {
-    @Getter private static MoneyDrop instance;
+public class UltimateCoins extends JavaPlugin {
+    @Getter private static UltimateCoins instance;
     @Getter private YamlDocument settings;
     @Getter private BukkitAudiences adventure;
     @Getter private MiniMessage mini;
@@ -46,8 +46,8 @@ public class MoneyDrop extends JavaPlugin {
         try {
             FlagRegistry registry = WorldGuard.getInstance().getFlagRegistry();
 
-            playerFlag = new StateFlag("moneydrop-players", true);
-            mobFlag = new StateFlag("moneydrop-mobs", true);
+            playerFlag = new StateFlag("ultimatecoins-players", true);
+            mobFlag = new StateFlag("ultimatecoins-mobs", true);
 
             registry.registerAll(List.of(playerFlag, mobFlag));
 

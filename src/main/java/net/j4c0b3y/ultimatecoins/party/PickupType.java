@@ -1,4 +1,4 @@
-package net.j4c0b3y.moneydrop.party;
+package net.j4c0b3y.ultimatecoins.party;
 
 public enum PickupType {
     INDIVIDUAL,

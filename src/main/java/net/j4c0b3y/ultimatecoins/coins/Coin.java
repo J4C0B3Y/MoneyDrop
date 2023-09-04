@@ -1,9 +1,9 @@
-package net.j4c0b3y.moneydrop.coins;
+package net.j4c0b3y.ultimatecoins.coins;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
 import lombok.Getter;
-import net.j4c0b3y.moneydrop.MoneyDrop;
-import net.j4c0b3y.moneydrop.utils.Metadata;
+import net.j4c0b3y.ultimatecoins.UltimateCoins;
+import net.j4c0b3y.ultimatecoins.utils.Metadata;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -22,7 +22,7 @@ public class Coin {
 
     public Coin(String id) {
         this.id = id;
-        this.settings = MoneyDrop.getInstance().getSettings();
+        this.settings = UltimateCoins.getInstance().getSettings();
         this.value = settings.getDouble("coins." + id + ".value");
         this.material = Enum.valueOf(Material.class, settings.getString("coins." + id + ".material"));
         this.model = settings.getInt("coins." + id + ".model");

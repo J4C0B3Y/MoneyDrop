@@ -1,7 +1,7 @@
-package net.j4c0b3y.moneydrop.coins;
+package net.j4c0b3y.ultimatecoins.coins;
 
 import lombok.experimental.UtilityClass;
-import net.j4c0b3y.moneydrop.MoneyDrop;
+import net.j4c0b3y.ultimatecoins.UltimateCoins;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -9,7 +9,7 @@ import java.util.*;
 
 @UtilityClass
 public class Coins {
-    private static final MoneyDrop plugin = MoneyDrop.getInstance();
+    private static final UltimateCoins plugin = UltimateCoins.getInstance();
 
     public List<Coin> getAll() {
         return plugin.getSettings().getSection("coins").getRoutesAsStrings(false).stream().map(Coin::new).toList();

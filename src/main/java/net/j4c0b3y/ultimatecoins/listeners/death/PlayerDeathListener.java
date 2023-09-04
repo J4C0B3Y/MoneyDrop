@@ -1,11 +1,11 @@
-package net.j4c0b3y.moneydrop.listeners.death;
+package net.j4c0b3y.ultimatecoins.listeners.death;
 
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import dev.dejvokep.boostedyaml.YamlDocument;
-import net.j4c0b3y.moneydrop.MoneyDrop;
-import net.j4c0b3y.moneydrop.coins.Coins;
-import net.j4c0b3y.moneydrop.party.Parties;
-import net.j4c0b3y.moneydrop.utils.WorldGuardUtils;
+import net.j4c0b3y.ultimatecoins.UltimateCoins;
+import net.j4c0b3y.ultimatecoins.coins.Coins;
+import net.j4c0b3y.ultimatecoins.party.Parties;
+import net.j4c0b3y.ultimatecoins.utils.WorldGuardUtils;
 import net.kyori.adventure.audience.Audience;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class PlayerDeathListener implements Listener {
-    private final MoneyDrop plugin = MoneyDrop.getInstance();
+    private final UltimateCoins plugin = UltimateCoins.getInstance();
     private final YamlDocument settings = plugin.getSettings();
 
     @EventHandler @SuppressWarnings("SpellCheckingInspection")
@@ -30,8 +30,8 @@ public class PlayerDeathListener implements Listener {
         double percentage = settings.getDouble("death.player.percentage");
 
         for (String permission : player.getEffectivePermissions().stream().map(PermissionAttachmentInfo::getPermission).toList()) {
-            if (permission.startsWith("moneydrop.percentage.")) {
-                double value = Double.parseDouble(permission.replace("moneydrop.percentage.", ""));
+            if (permission.startsWith("ultimatecoins.percentage.")) {
+                double value = Double.parseDouble(permission.replace("ultimatecoins.percentage.", ""));
                 if (value > percentage) percentage = value;
             }
         }

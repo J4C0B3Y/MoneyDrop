@@ -1,17 +1,17 @@
-package net.j4c0b3y.moneydrop.party;
+package net.j4c0b3y.ultimatecoins.party;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
 import lombok.experimental.UtilityClass;
 import net.Indyuce.mmocore.api.player.PlayerData;
 import net.Indyuce.mmocore.party.AbstractParty;
-import net.j4c0b3y.moneydrop.MoneyDrop;
+import net.j4c0b3y.ultimatecoins.UltimateCoins;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 
 @UtilityClass
 public class Parties {
-    private final MoneyDrop plugin = MoneyDrop.getInstance();
+    private final UltimateCoins plugin = UltimateCoins.getInstance();
     private final YamlDocument settings = plugin.getSettings();
 
     public double getMultiplier(Player player) {

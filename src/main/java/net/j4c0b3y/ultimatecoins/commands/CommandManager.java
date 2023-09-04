@@ -1,4 +1,4 @@
-package net.j4c0b3y.moneydrop.commands;
+package net.j4c0b3y.ultimatecoins.commands;
 
 import lombok.Getter;
 import org.bukkit.Bukkit;

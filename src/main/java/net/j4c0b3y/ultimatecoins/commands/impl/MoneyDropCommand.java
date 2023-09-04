@@ -1,7 +1,7 @@
-package net.j4c0b3y.moneydrop.commands.impl;
+package net.j4c0b3y.ultimatecoins.commands.impl;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
-import net.j4c0b3y.moneydrop.MoneyDrop;
+import net.j4c0b3y.ultimatecoins.UltimateCoins;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.Command;
@@ -13,25 +13,25 @@ import java.util.List;
 
 @SuppressWarnings("SpellCheckingInspection")
 public class MoneyDropCommand extends Command {
-    private final MoneyDrop plugin;
+    private final UltimateCoins plugin;
     private final MiniMessage mini;
     private final YamlDocument settings;
 
     public MoneyDropCommand() {
-        super("moneydrop");
+        super("ultimatecoins");
 
-        this.plugin = MoneyDrop.getInstance();
+        this.plugin = UltimateCoins.getInstance();
         this.mini = plugin.getMini();
         this.settings = plugin.getSettings();
 
-        setAliases(List.of("md"));
+        setAliases(List.of("uc"));
     }
 
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
         Audience audience = plugin.getAdventure().sender(sender);
 
-        if (!sender.hasPermission("moneydrop.admin")) {
+        if (!sender.hasPermission("ultimatecoins.admin")) {
             audience.sendMessage(mini.deserialize(settings.getString("messages.no-permission")));
             return true;
         }
@@ -50,7 +50,7 @@ public class MoneyDropCommand extends Command {
     public List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
         ArrayList<String> completions = new ArrayList<>();
 
-        if (args.length == 1 && sender.hasPermission("moneydrop.admin")) {
+        if (args.length == 1 && sender.hasPermission("ultimatecoins.admin")) {
             completions.add("reload");
         }
 

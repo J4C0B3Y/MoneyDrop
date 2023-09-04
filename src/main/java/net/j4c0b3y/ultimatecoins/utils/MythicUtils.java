@@ -1,4 +1,4 @@
-package net.j4c0b3y.moneydrop.utils;
+package net.j4c0b3y.ultimatecoins.utils;
 
 import io.lumine.mythic.bukkit.MythicBukkit;
 import io.lumine.mythic.core.mobs.ActiveMob;

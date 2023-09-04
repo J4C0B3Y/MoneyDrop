@@ -1,4 +1,4 @@
-package net.j4c0b3y.moneydrop.utils;
+package net.j4c0b3y.ultimatecoins.utils;
 
 import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.WorldGuard;

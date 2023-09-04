@@ -1,6 +1,10 @@
-# MoneyDrop
+# UltimateCoins
 
 A spigot plugin made for Tonierbobcat966.
+
+## Permissions
+- ultimatecoins.admin - reload command
+- ultimatecoins.percentage.\<number\> - percentage of coins dropped on death
 
 ## config.yml
 ```yaml

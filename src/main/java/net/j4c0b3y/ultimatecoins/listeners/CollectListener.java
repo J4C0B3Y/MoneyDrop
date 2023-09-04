@@ -1,13 +1,13 @@
-package net.j4c0b3y.moneydrop.listeners;
+package net.j4c0b3y.ultimatecoins.listeners;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
 import net.Indyuce.mmocore.party.AbstractParty;
-import net.j4c0b3y.moneydrop.MoneyDrop;
-import net.j4c0b3y.moneydrop.coins.Coin;
-import net.j4c0b3y.moneydrop.hologram.Hologram;
-import net.j4c0b3y.moneydrop.party.PickupType;
-import net.j4c0b3y.moneydrop.utils.Metadata;
-import net.j4c0b3y.moneydrop.party.Parties;
+import net.j4c0b3y.ultimatecoins.UltimateCoins;
+import net.j4c0b3y.ultimatecoins.coins.Coin;
+import net.j4c0b3y.ultimatecoins.hologram.Hologram;
+import net.j4c0b3y.ultimatecoins.party.PickupType;
+import net.j4c0b3y.ultimatecoins.utils.Metadata;
+import net.j4c0b3y.ultimatecoins.party.Parties;
 import net.kyori.adventure.audience.Audience;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -25,7 +25,7 @@ import java.math.RoundingMode;
 import java.util.UUID;
 
 public class CollectListener implements Listener {
-    private final MoneyDrop plugin = MoneyDrop.getInstance();
+    private final UltimateCoins plugin = UltimateCoins.getInstance();
     private final YamlDocument settings = plugin.getSettings();
 
     @EventHandler

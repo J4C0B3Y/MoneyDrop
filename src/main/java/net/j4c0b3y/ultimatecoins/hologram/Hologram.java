@@ -1,7 +1,7 @@
-package net.j4c0b3y.moneydrop.hologram;
+package net.j4c0b3y.ultimatecoins.hologram;
 
 import lombok.Getter;
-import net.j4c0b3y.moneydrop.MoneyDrop;
+import net.j4c0b3y.ultimatecoins.UltimateCoins;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Location;
@@ -13,7 +13,7 @@ public class Hologram {
     @Getter private Location location;
     @Getter private String text;
 
-    private final MiniMessage mini = MoneyDrop.getInstance().getMini();
+    private final MiniMessage mini = UltimateCoins.getInstance().getMini();
 
     public Hologram spawn() {
         World world = location.getWorld();

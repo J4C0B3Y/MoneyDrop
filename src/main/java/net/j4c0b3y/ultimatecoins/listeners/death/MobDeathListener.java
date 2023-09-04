@@ -1,13 +1,13 @@
-package net.j4c0b3y.moneydrop.listeners.death;
+package net.j4c0b3y.ultimatecoins.listeners.death;
 
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.block.implementation.Section;
-import net.j4c0b3y.moneydrop.MoneyDrop;
-import net.j4c0b3y.moneydrop.coins.Coins;
-import net.j4c0b3y.moneydrop.party.Parties;
-import net.j4c0b3y.moneydrop.utils.MythicUtils;
-import net.j4c0b3y.moneydrop.utils.WorldGuardUtils;
+import net.j4c0b3y.ultimatecoins.UltimateCoins;
+import net.j4c0b3y.ultimatecoins.coins.Coins;
+import net.j4c0b3y.ultimatecoins.party.Parties;
+import net.j4c0b3y.ultimatecoins.utils.MythicUtils;
+import net.j4c0b3y.ultimatecoins.utils.WorldGuardUtils;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Random;
 
 public class MobDeathListener implements Listener {
-    private final MoneyDrop plugin = MoneyDrop.getInstance();
+    private final UltimateCoins plugin = UltimateCoins.getInstance();
     private final YamlDocument settings = plugin.getSettings();
     private final Random random = new Random();
 
