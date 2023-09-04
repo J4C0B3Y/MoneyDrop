@@ -30,7 +30,7 @@ public class PlayerDeathListener implements Listener {
         double percentage = settings.getDouble("death.player.percentage");
 
         if (killer != null) {
-            for (String permission : killer.getEffectivePermissions().stream().map(PermissionAttachmentInfo::getPermission).toList()) {
+            for (String permission : player.getEffectivePermissions().stream().map(PermissionAttachmentInfo::getPermission).toList()) {
                 if (permission.startsWith("moneydrop.percentage.")) {
                     double value = Double.parseDouble(permission.replace("moneydrop.percentage.", ""));
                     if (value > percentage) percentage = value;
