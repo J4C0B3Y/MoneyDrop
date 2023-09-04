@@ -10,7 +10,7 @@ var name = "MoneyDrop"
 
 description = "MoneyDrop plugin for Tonierbobcat966"
 group = "net.j4c0b3y"
-version = "2.0.2"
+version = "2.0.3"
 
 repositories {
     mavenCentral()
