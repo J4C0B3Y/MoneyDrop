@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -19,14 +20,25 @@ public class PlayerDeathListener implements Listener {
     private final MoneyDrop plugin = MoneyDrop.getInstance();
     private final YamlDocument settings = plugin.getSettings();
 
-    @EventHandler
+    @EventHandler @SuppressWarnings("SpellCheckingInspection")
     public void onDeath(PlayerDeathEvent event) {
         Player player = event.getEntity();
         Player killer = player.getKiller();
 
         if (plugin.isWorldGuardHook() && WorldGuardUtils.checkFlag(player, plugin.getPlayerFlag(), StateFlag.State.DENY)) return;
 
-        double amount = plugin.getEconomy().getBalance(player) * settings.getDouble("death.player.percentage") / 100;
+        double percentage = settings.getDouble("death.player.percentage");
+
+        if (killer != null) {
+            for (String permission : killer.getEffectivePermissions().stream().map(PermissionAttachmentInfo::getPermission).toList()) {
+                if (permission.startsWith("moneydrop.percentage.")) {
+                    double value = Double.parseDouble(permission.replace("moneydrop.percentage.", ""));
+                    if (value > percentage) percentage = value;
+                }
+            }
+        }
+
+        double amount = plugin.getEconomy().getBalance(player) * percentage / 100;
 
         if (Parties.isEnabled()) amount *= Parties.getMultiplier(player);
 

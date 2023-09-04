@@ -6,42 +6,21 @@ plugins {
     id("com.github.johnrengelman.shadow") version "7.0.0"
 }
 
-var plugin = "MoneyDrop"
+var name = "MoneyDrop"
 
 description = "MoneyDrop plugin for Tonierbobcat966"
 group = "net.j4c0b3y"
-version = "2.0.0"
+version = "2.0.1"
 
 repositories {
     mavenCentral()
-
-    maven {
-        url "https://jitpack.io"
-    }
-
-    maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots"
-    }
-
-    maven {
-        url "https://oss.sonatype.org/content/repositories/central"
-    }
-
-    maven {
-        url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
-    }
-
-    maven {
-        url "https://mvn.lumine.io/repository/maven-public/"
-    }
-
-    maven {
-        url "https://nexus.phoenixdevt.fr/repository/maven-public/"
-    }
-
-    maven {
-        url "https://maven.enginehub.org/repo/"
-    }
+    maven { url "https://jitpack.io" }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    maven { url "https://oss.sonatype.org/content/repositories/central" }
+    maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
+    maven { url "https://mvn.lumine.io/repository/maven-public/" }
+    maven { url "https://nexus.phoenixdevt.fr/repository/maven-public/" }
+    maven { url "https://maven.enginehub.org/repo/" }
 }
 
 
@@ -69,7 +48,7 @@ compileJava {
 processResources {
     filter ReplaceTokens, tokens: [
             "version": version,
-            "name": plugin,
+            "name": name,
             "description": description,
     ]
 }
@@ -84,7 +63,7 @@ def outputTasks() {
 
 tasks.register('copyJars', Copy) {
     outputTasks().forEach({from(it)})
-    rename "(.*)-all.jar", (plugin + "-" + version + ".jar")
+    rename "(.*)-all.jar", (name + "-" + version + ".jar")
     into file("jars")
 }
 
