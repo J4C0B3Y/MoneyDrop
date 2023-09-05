@@ -7,7 +7,7 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import lombok.Getter;
 import net.Indyuce.mmocore.api.MMOCoreAPI;
 import net.j4c0b3y.ultimatecoins.commands.CommandManager;
-import net.j4c0b3y.ultimatecoins.commands.impl.MoneyDropCommand;
+import net.j4c0b3y.ultimatecoins.commands.impl.UltimateCoinsCommand;
 import net.j4c0b3y.ultimatecoins.listeners.CollectListener;
 import net.j4c0b3y.ultimatecoins.listeners.MergeListener;
 import net.j4c0b3y.ultimatecoins.listeners.death.MobDeathListener;
@@ -134,7 +134,7 @@ public class UltimateCoins extends JavaPlugin {
     }
 
     private void registerCommands() {
-        commands.register(new MoneyDropCommand());
+        commands.register(new UltimateCoinsCommand());
     }
 
     private void registerListeners() {
