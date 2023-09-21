@@ -5,6 +5,7 @@ A spigot plugin made for Tonierbobcat966.
 ## Permissions
 - ultimatecoins.admin - reload command
 - ultimatecoins.percentage.\<number\> - percentage of coins dropped on death
+- ultimatecoins.mob.multiplier.\<number\> - mob drop multiplier
 
 ## config.yml
 ```yaml
@@ -72,6 +73,9 @@ drop:
 
   # Should the drops be dropped with a random offset?
   naturally: false
+
+  # Should passive mobs drop coins?
+  passive: false
 
 party:
   # Should MMOCore party integration be enabled?
