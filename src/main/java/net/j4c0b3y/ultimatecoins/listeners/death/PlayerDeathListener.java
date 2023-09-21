@@ -5,6 +5,7 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import net.j4c0b3y.ultimatecoins.UltimateCoins;
 import net.j4c0b3y.ultimatecoins.coins.Coins;
 import net.j4c0b3y.ultimatecoins.party.Parties;
+import net.j4c0b3y.ultimatecoins.utils.PermissionUtils;
 import net.j4c0b3y.ultimatecoins.utils.WorldGuardUtils;
 import net.kyori.adventure.audience.Audience;
 import org.bukkit.entity.Player;
@@ -28,13 +29,7 @@ public class PlayerDeathListener implements Listener {
         if (plugin.isWorldGuardHook() && WorldGuardUtils.checkFlag(player, plugin.getPlayerFlag(), StateFlag.State.DENY)) return;
 
         double percentage = settings.getDouble("death.player.percentage");
-
-        for (String permission : player.getEffectivePermissions().stream().map(PermissionAttachmentInfo::getPermission).toList()) {
-            if (permission.startsWith("ultimatecoins.percentage.")) {
-                double value = Double.parseDouble(permission.replace("ultimatecoins.percentage.", ""));
-                if (value > percentage) percentage = value;
-            }
-        }
+        percentage = PermissionUtils.getDouble(player, "ultimatecoins.percentage", percentage);
 
         double amount = plugin.getEconomy().getBalance(player) * percentage / 100;
 
