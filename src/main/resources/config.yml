@@ -63,6 +63,9 @@ drop:
   # Should the drops be dropped with a random offset?
   naturally: false
 
+  # Should passive mobs drop coins?
+  passive: false
+
 party:
   # Should MMOCore party integration be enabled?
   # Requires MMOCore & MythicLib installed.
