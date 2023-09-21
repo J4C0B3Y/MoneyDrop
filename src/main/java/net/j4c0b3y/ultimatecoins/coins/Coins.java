@@ -42,7 +42,7 @@ public class Coins {
 
     public List<Coin> fromPercentages(double target, List<String> percentages) {
         List<Coin> result = new ArrayList<>();
-        if (percentages.size() == 0) return result;
+        if (percentages.isEmpty()) return result;
 
         for (String entry : percentages) {
             String[] data = entry.split(" ");

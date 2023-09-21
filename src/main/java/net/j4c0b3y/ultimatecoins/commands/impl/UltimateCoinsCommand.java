@@ -12,12 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("SpellCheckingInspection")
-public class MoneyDropCommand extends Command {
+public class UltimateCoinsCommand extends Command {
     private final UltimateCoins plugin;
     private final MiniMessage mini;
     private final YamlDocument settings;
 
-    public MoneyDropCommand() {
+    public UltimateCoinsCommand() {
         super("ultimatecoins");
 
         this.plugin = UltimateCoins.getInstance();
@@ -50,9 +50,7 @@ public class MoneyDropCommand extends Command {
     public List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
         ArrayList<String> completions = new ArrayList<>();
 
-        if (args.length == 1 && sender.hasPermission("ultimatecoins.admin")) {
-            completions.add("reload");
-        }
+        if (args.length == 1 && sender.hasPermission("ultimatecoins.admin")) completions.add("reload");
 
         return completions;
     }
