@@ -40,8 +40,7 @@ public class MobDeathListener implements Listener {
         if (plugin.isMythicHook() && MythicUtils.isMythicMob(entity)) {
             section = settings.getOptionalSection("death.mod.mythic." + MythicUtils.getMythicMob(entity).getMobType()).orElse(settings.getSection("death.mob.mythic.default"));
         } else {
-            if (!(entity instanceof Monster) && !settings.getBoolean("drop.passive")) return;
-            section = settings.getOptionalSection("death.mob.vanilla." + entity.getType().toString().toLowerCase()).orElse(settings.getSection("death.mob.vanilla.default"));
+            section = settings.getOptionalSection("death.mob.vanilla." + entity.getType().toString().toLowerCase()).orElse(settings.getSection("death.mob.vanilla.default." + (entity instanceof Monster ? "hostile" : "passive")));
         }
 
         double[] raw = Arrays.stream(section.getString("amount").split("-")).mapToDouble(Double::parseDouble).toArray();
@@ -50,6 +49,6 @@ public class MobDeathListener implements Listener {
         amount *= PermissionUtils.getDouble(killer, "ultimatecoins.mob.multiplier");
 
         List<String> coins = section.getStringList("coins");
-        Coins.spawn(coins.size() > 0 ? Coins.fromPercentages(amount, coins) : Coins.fromAmount(amount), entity.getLocation(), killer, null);
+        Coins.spawn(!coins.isEmpty() ? Coins.fromPercentages(amount, coins) : Coins.fromAmount(amount), entity.getLocation(), killer, null);
     }
 }

@@ -123,18 +123,25 @@ death:
     vanilla:
       # Default drop
       default:
-        # How many coins should drop?
-        # Separate two numbers with a hyphen to make it a range.
-        # Example: 1-5 picks a random number between 5 and 10.
-        amount: 13
+        passive:
 
-        # What coins should drop?
-        # Set to [] to automatically calculate the coins.
-        # Format: <percent>% <coin>
-        # If coins don't add up to 100%, the player will get fewer coins.
-        coins:
-          - 50% copper
-          - 50% gold
+          # How many coins should drop?
+          # Separate two numbers with a hyphen to make it a range.
+          # Example: 1-5 picks a random number between 5 and 10.
+          amount: 13
+
+          # What coins should drop?
+          # Set to [] to automatically calculate the coins.
+          # Format: <percent>% <coin>
+          # If coins don't add up to 100%, the player will get fewer coins.
+          coins:
+            - 50% copper
+            - 50% gold
+        hostile:
+          amount: 13
+          coins:
+            - 50% copper
+            - 50% gold
       zombie:
         amount: 20
         coins: []
