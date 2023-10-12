@@ -46,7 +46,7 @@ public class MobDeathListener implements Listener {
         double[] raw = Arrays.stream(section.getString("amount").split("-")).mapToDouble(Double::parseDouble).toArray();
         double amount = raw.length > 1 ? random.nextDouble(raw[0], raw[1]) : raw[0];
         if (Parties.isEnabled()) amount *= Parties.getMultiplier(killer);
-        amount *= PermissionUtils.getDouble(killer, "ultimatecoins.mob.multiplier");
+        amount *= PermissionUtils.getDouble(killer, "ultimatecoins.mob.multiplier", 1);
 
         List<String> coins = section.getStringList("coins");
         Coins.spawn(!coins.isEmpty() ? Coins.fromPercentages(amount, coins) : Coins.fromAmount(amount), entity.getLocation(), killer, null);
