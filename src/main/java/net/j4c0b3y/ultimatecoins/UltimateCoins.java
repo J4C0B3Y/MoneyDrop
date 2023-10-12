@@ -4,6 +4,10 @@ import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import dev.dejvokep.boostedyaml.YamlDocument;
+import dev.dejvokep.boostedyaml.settings.dumper.DumperSettings;
+import dev.dejvokep.boostedyaml.settings.general.GeneralSettings;
+import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
+import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
 import lombok.Getter;
 import net.Indyuce.mmocore.api.MMOCoreAPI;
 import net.j4c0b3y.ultimatecoins.commands.CommandManager;
@@ -92,7 +96,9 @@ public class UltimateCoins extends JavaPlugin {
         try {
             settings = YamlDocument.create(
                 new File(getDataFolder(), "config.yml"),
-                Objects.requireNonNull(getResource("config.yml"), "Couldn't load config.yml")
+                Objects.requireNonNull(getResource("config.yml"), "Couldn't load config.yml"),
+                GeneralSettings.builder().setUseDefaults(false).build(),
+                LoaderSettings.DEFAULT, DumperSettings.DEFAULT, UpdaterSettings.DEFAULT
             );
         } catch (IOException | NullPointerException exception) {
             getLogger().severe(exception.getMessage());
