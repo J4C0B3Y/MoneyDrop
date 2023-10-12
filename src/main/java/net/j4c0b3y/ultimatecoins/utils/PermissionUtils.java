@@ -13,7 +13,7 @@ public class PermissionUtils {
 
 
     public Double getDouble(Player player, String key, double initial) {
-        double result = initial;
+        double result = 0;
 
         for (String permission : player.getEffectivePermissions().stream().map(PermissionAttachmentInfo::getPermission).toList()) {
             if (permission.startsWith(key + ".")) {
@@ -22,6 +22,6 @@ public class PermissionUtils {
             }
         }
 
-        return result;
+        return result == 0 ? initial : result;
     }
 }
