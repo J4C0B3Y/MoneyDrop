@@ -1,0 +1,56 @@
+config-version: 1
+
+
+
+#create coins here
+coins:
+  gold:
+    economy: VAULT
+    material: GOLD_INGOT
+    value: 5
+    model: 1
+  iron:
+    economy: VAULT
+    material: IRON_INGOT
+    value: 3
+    model: 1
+  ecoTest:
+    economy: COINSENGINE
+    material: LARGE_AMETHYST_BUD
+    value: 10
+    model: 0
+
+mob-settings:
+  vanilla:
+    default:
+      passive-mobs:
+        amount: 1-5
+        # What coins should drop?
+        # Set to [] to automatically calculate the coins.
+        # Format: <percent>% <coin>
+        # If coins don't add up to 100%, the player will get fewer coins.
+        coins: []
+      hostile-mobs:
+        amount: 15
+        coins:
+          - 50% iron
+          - 50% gold
+    zombie:
+      amount: 20
+      coins:
+        - 100% ecoTest
+
+  #LCSCore uses this when mythic mob is dead
+  mythic-mobs:
+    default:
+      amount: 5-10
+      coins:
+        - 20% iron
+        - 80% gold
+
+    #Name of mythic mob
+    SkeletalMinion:
+      amount: 10
+      coins:
+        - 50% gold
+        - 30% iron

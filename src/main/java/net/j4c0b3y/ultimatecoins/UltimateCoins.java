@@ -4,37 +4,29 @@ import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import dev.dejvokep.boostedyaml.YamlDocument;
-import dev.dejvokep.boostedyaml.settings.dumper.DumperSettings;
-import dev.dejvokep.boostedyaml.settings.general.GeneralSettings;
-import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
-import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
 import lombok.Getter;
 import net.Indyuce.mmocore.api.MMOCoreAPI;
-import net.j4c0b3y.ultimatecoins.commands.CommandManager;
-import net.j4c0b3y.ultimatecoins.commands.impl.UltimateCoinsCommand;
+//import net.j4c0b3y.ultimatecoins.commands.CommandManager;
+//import net.j4c0b3y.ultimatecoins.commands.impl.UltimateCoinsCommand;
 import net.j4c0b3y.ultimatecoins.listeners.CollectListener;
 import net.j4c0b3y.ultimatecoins.listeners.MergeListener;
-import net.j4c0b3y.ultimatecoins.listeners.death.MobDeathListener;
-import net.j4c0b3y.ultimatecoins.listeners.death.PlayerDeathListener;
+import net.j4c0b3y.ultimatecoins.listeners.MobDeathListener;
+import net.j4c0b3y.ultimatecoins.listeners.PlayerDeathListener;
+import net.j4c0b3y.ultimatecoins.managers.EconomyManager;
 import net.j4c0b3y.ultimatecoins.utils.ExceptionUtils;
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
-import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
-import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
+import net.j4c0b3y.ultimatecoins.utils.SimpleDocument;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 
 public class UltimateCoins extends JavaPlugin {
     @Getter private static UltimateCoins instance;
-    @Getter private YamlDocument settings;
-    @Getter private BukkitAudiences adventure;
-    @Getter private MiniMessage mini;
+
+    //@Getter private BukkitAudiences adventure;
+    //@Getter private MiniMessage mini;
     @Getter private Economy economy;
     @Getter private boolean mmoHook = false;
     @Getter private MMOCoreAPI mmo;
@@ -43,7 +35,15 @@ public class UltimateCoins extends JavaPlugin {
     @Getter private StateFlag mobFlag;
     @Getter private boolean mythicHook = false;
 
-    private final CommandManager commands = new CommandManager();
+    @Getter
+    private YamlDocument configFile;
+    @Getter
+    private YamlDocument coinSettings;
+
+    @Getter
+    private final EconomyManager economyManager = new EconomyManager(this);
+
+    //private final CommandManager commands = new CommandManager();
 
     @Override @SuppressWarnings("SpellCheckingInspection")
     public void onLoad() {
@@ -60,18 +60,27 @@ public class UltimateCoins extends JavaPlugin {
         } catch (NoClassDefFoundError error) {
             getLogger().warning("WorldGuard not found!");
         }
+
+
+    }
+
+    private void loadConfigFiles() {
+        //When create a config files. when you are loading it directly from resources you can leave file location null
+        configFile = SimpleDocument.create("config.yml", null);
+        coinSettings = SimpleDocument.create("coins.yml", null);
     }
 
     @Override
     public void onEnable() {
         instance = this;
 
-        loadConfig();
+        InitializeEconomy();
 
-        adventure = BukkitAudiences.create(this);
-        mini = MiniMessage.builder().tags(TagResolver.builder().resolver(StandardTags.color()).build()).build();
+        loadConfigFiles();
 
-        hookVault();
+        //adventure = BukkitAudiences.create(this);
+        //mini = MiniMessage.builder().tags(TagResolver.builder().resolver(StandardTags.color()).build()).build();
+
         hookMMOCore();
         hookMythic();
 
@@ -83,40 +92,15 @@ public class UltimateCoins extends JavaPlugin {
         long start = System.currentTimeMillis();
 
         try {
-            settings.reload();
-            getLogger().info("Reloaded config.yml!");
+            configFile.reload();
+            getLogger().info("Reloaded " + configFile.getName() + "!");
+            coinSettings.reload();
+            getLogger().info("Reloaded " + coinSettings.getName() + "!");
         } catch (IOException exception) {
             getLogger().severe(ExceptionUtils.getStackTrace(exception));
         }
 
         return System.currentTimeMillis() - start;
-    }
-
-    private void loadConfig() {
-        try {
-            settings = YamlDocument.create(
-                new File(getDataFolder(), "config.yml"),
-                Objects.requireNonNull(getResource("config.yml"), "Couldn't load config.yml"),
-                GeneralSettings.builder().setUseDefaults(false).build(),
-                LoaderSettings.DEFAULT, DumperSettings.DEFAULT, UpdaterSettings.DEFAULT
-            );
-        } catch (IOException | NullPointerException exception) {
-            getLogger().severe(exception.getMessage());
-        }
-    }
-
-    private void hookVault() {
-        RegisteredServiceProvider<Economy> provider = getServer().getServicesManager().getRegistration(Economy.class);
-
-        if (provider == null) {
-            getLogger().severe("Vault not found! Disabling...");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-
-        economy = provider.getProvider();
-
-        getLogger().info("Hooked into Vault!");
     }
 
     private void hookMMOCore() {
@@ -140,7 +124,7 @@ public class UltimateCoins extends JavaPlugin {
     }
 
     private void registerCommands() {
-        commands.register(new UltimateCoinsCommand());
+        //commands.register(new UltimateCoinsCommand());
     }
 
     private void registerListeners() {
@@ -148,5 +132,27 @@ public class UltimateCoins extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new MergeListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerDeathListener(), this);
         getServer().getPluginManager().registerEvents(new MobDeathListener(), this);
+    }
+
+    private void InitializeEconomy() {
+        if (!hasVaultEconomy()) {
+            getLogger().severe(String.format("[%s] - Vault not found! Disabling...", getDescription().getName()));
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        economyManager.setupEconomy();
+    }
+
+    private boolean hasVaultEconomy() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+        economy = rsp.getProvider();
+        return true;
     }
 }

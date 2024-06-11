@@ -1,19 +1,15 @@
-package net.j4c0b3y.ultimatecoins.hologram;
+package net.j4c0b3y.ultimatecoins.coins;
 
 import lombok.Getter;
-import net.j4c0b3y.ultimatecoins.UltimateCoins;
-import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
 
 public class Hologram {
-    @Getter private ArmorStand entity;
+    @Getter
+    private ArmorStand entity;
     @Getter private Location location;
     @Getter private String text;
-
-    private final MiniMessage mini = UltimateCoins.getInstance().getMini();
 
     public Hologram spawn() {
         World world = location.getWorld();
@@ -21,12 +17,12 @@ public class Hologram {
 
         this.entity = world.spawn(location, ArmorStand.class);
 
+        entity.setVisible(false);
         entity.setSmall(true);
         entity.setMarker(true);
         entity.setArms(false);
         entity.setBasePlate(false);
         entity.setGravity(false);
-        entity.setVisible(false);
         entity.setCustomName(text);
         entity.setCustomNameVisible(true);
         entity.setAI(false);
@@ -49,7 +45,7 @@ public class Hologram {
     }
 
     public Hologram setText(String text) {
-        this.text = LegacyComponentSerializer.legacySection().serialize(mini.deserialize(text));
+        this.text = text;
         if (entity == null) return this;
 
         entity.setCustomName(text);

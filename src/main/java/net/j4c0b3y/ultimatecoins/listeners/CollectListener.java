@@ -1,14 +1,15 @@
 package net.j4c0b3y.ultimatecoins.listeners;
 
-import dev.dejvokep.boostedyaml.YamlDocument;
+
 import net.Indyuce.mmocore.party.AbstractParty;
+import net.j4c0b3y.ultimatecoins.coins.Hologram;
+import net.j4c0b3y.ultimatecoins.party.Parties;
+import net.j4c0b3y.ultimatecoins.party.CoinDistributionType;
 import net.j4c0b3y.ultimatecoins.UltimateCoins;
 import net.j4c0b3y.ultimatecoins.coins.Coin;
-import net.j4c0b3y.ultimatecoins.hologram.Hologram;
-import net.j4c0b3y.ultimatecoins.party.PickupType;
+import net.j4c0b3y.ultimatecoins.economy.IEconomy;
+import net.j4c0b3y.ultimatecoins.config.MainConfig;
 import net.j4c0b3y.ultimatecoins.utils.Metadata;
-import net.j4c0b3y.ultimatecoins.party.Parties;
-import net.kyori.adventure.audience.Audience;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -20,13 +21,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 
+
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.UUID;
 
 public class CollectListener implements Listener {
     private final UltimateCoins plugin = UltimateCoins.getInstance();
-    private final YamlDocument settings = plugin.getSettings();
+    //private final YamlDocument settings = plugin.getCoinsConfig();
 
     @EventHandler
     public void onCollect(EntityPickupItemEvent event) {
@@ -50,59 +53,75 @@ public class CollectListener implements Listener {
 
         if (Parties.isEnabled()) {
             AbstractParty party = Parties.getParty(player);
-            PickupType pickup = PickupType.valueOf(settings.getString("party.pickup").toUpperCase());
+            CoinDistributionType pickup = CoinDistributionType.valueOf(MainConfig.CoinSection.MMOCORE_PARTY_INTEGRATION_DISTRIBUTION_TYPE);
 
-            if (Parties.hasPlayers(party) && !pickup.equals(PickupType.INDIVIDUAL)) {
+            if (Parties.hasPlayers(party) && !pickup.equals(CoinDistributionType.INDIVIDUAL)) {
                 double split = value / Parties.getSize(party);
-                Parties.getPlayers(party).forEach(member -> pickup(member, item, pickup.equals(PickupType.SHARED) ? value : split, member.equals(player)));
+                Parties.getPlayers(party).forEach(member -> pickup(member, item, pickup.equals(CoinDistributionType.SHARED) ? value : split, member.equals(player), coin.getCoinEconomy()));
 
                 return;
             }
         }
 
-        pickup(player, item, value, true);
+        pickup(player, item, value, MainConfig.CoinSection.HOLOGRAM_ENABLED, coin.getCoinEconomy());
     }
 
-    private void pickup(Player player, Item item, double value, boolean spawnHologram) {
+    private void pickup(Player player, Item item, double value, boolean spawnHologram, IEconomy economy) {
         item.remove();
 
-        plugin.getEconomy().depositPlayer(player, value);
+        economy.addBalance(player, value);
 
         String decimal = String.valueOf(BigDecimal.valueOf(value).setScale(2, RoundingMode.HALF_UP).doubleValue());
         String whole = String.valueOf((int) value);
 
-        if (settings.getBoolean("pickup.notify.enabled")) {
-            String amount = settings.getBoolean("pickup.notify.whole") ? whole : decimal;
+        if (MainConfig.CoinSection.NOTIFY_PICKUP) {
+            //String amount = settings.getBoolean("pickup.notify.whole") ? whole : decimal;
 
-            Audience audience = plugin.getAdventure().player(player);
-            audience.sendMessage(plugin.getMini().deserialize(settings.getString("pickup.notify.message").replace("<amount>", amount)));
+            //DO NOT INLINE VARIABLE. IT IS A PLACEHOLDER FOR WHAT IS ABOVE
+            String amount = whole;
+
+            //Audience audience = plugin.getAdventure().player(player);
+            /*audience.sendMessage(plugin.getMini().deserialize(MainConfig.MessageSection.COIN_PICKUP_MESSAGE)
+                    .replace("%amount%", amount)
+                    .replace("%currency_symbol%", economy.getSymbol())
+                    .replace("%currency_name%", economy.getName()));*/
         }
 
-        if (settings.getBoolean("pickup.sound.enabled")) {
+        if (MainConfig.CoinSection.PICKUP_SOUND_ENABLED) {
             player.playSound(
                 player.getLocation(),
-                Sound.valueOf(settings.getString("pickup.sound.type")),
+                Sound.valueOf(MainConfig.CoinSection.PICKUP_SOUND_VALUE),
                 SoundCategory.RECORDS,
-                settings.getFloat("pickup.sound.volume"),
-                settings.getFloat("pickup.sound.pitch")
+                MainConfig.CoinSection.PICKUP_SOUND_VOLUME.floatValue(),
+                MainConfig.CoinSection.PICKUP_SOUND_PITCH.floatValue()
             );
         }
 
-        if (spawnHologram && settings.getBoolean("pickup.hologram.enabled")) {
+        if (spawnHologram && MainConfig.CoinSection.HOLOGRAM_ENABLED) {
             Location location = item.getLocation().clone()
-                .add(0, settings.getDouble("pickup.hologram.y-offset"), 0)
-                .add(player.getEyeLocation().getDirection().normalize().multiply(settings.getDouble("pickup.hologram.distance")));
+                .add(0, MainConfig.CoinSection.HOLOGRAM_Y_OFFSET, 0)
+                .add(player.getEyeLocation().getDirection().normalize().multiply(MainConfig.CoinSection.HOLOGRAM_DISTANCE_FROM_PLAYER));
 
-            String amount = settings.getBoolean("pickup.hologram.whole") ? whole : decimal;
+            //String amount = settings.getBoolean("pickup.hologram.whole") ? whole : decimal;
+
+            //DO NOT INLINE VARIABLE. IT IS A PLACEHOLDER FOR WHAT IS ABOVE
+            String amount = whole;
 
             Hologram hologram = new Hologram()
                 .teleport(location)
-                .setText(settings.getString("pickup.hologram.text").replace("<amount>", amount))
-                .spawn();
+                .setText(MainConfig.CoinSection.HOLOGRAM_TEXT
+                        .replace("%amount%", amount)
+                        .replace("%currency_symbol%", economy.getSymbol())
+                        .replace("%currency_name%", economy.getName()))
+                        //Spawns in hologram
+                        .spawn();
 
-            int duration = settings.getInt("pickup.hologram.duration");
-            double increment = settings.getDouble("pickup.hologram.rise.amount") / duration;
-            boolean rise = settings.getBoolean("pickup.hologram.rise.enabled");
+
+            boolean rise = MainConfig.CoinSection.HOLOGRAM_RISE_ENABLED;
+            int duration = MainConfig.CoinSection.HOLOGRAM_DURATION;
+            double increment = MainConfig.CoinSection.HOLOGRAM_RISE_AMOUNT / duration;
+
+
 
             Integer task = rise ? Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> hologram.rise(increment), 1, 0) : null;
 
@@ -115,11 +134,11 @@ public class CollectListener implements Listener {
     }
 
     private boolean canPickUp(Player player, UUID killer, UUID victim) {
-        if (killer == null || settings.getBoolean("pickup.others")) return true;
+        if (killer == null || MainConfig.CoinSection.PICKUP_OTHERS) return true;
 
         boolean isKiller = player.getUniqueId().equals(killer);
         boolean isVictim = victim != null && player.getUniqueId().equals(victim);
 
-        return isKiller || (settings.getBoolean("pickup.victim") && isVictim);
+        return isKiller || MainConfig.CoinSection.PICKUP_OWN && isVictim;
     }
 }

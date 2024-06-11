@@ -3,6 +3,8 @@ package net.j4c0b3y.ultimatecoins.coins;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import lombok.Getter;
 import net.j4c0b3y.ultimatecoins.UltimateCoins;
+import net.j4c0b3y.ultimatecoins.config.MainConfig;
+import net.j4c0b3y.ultimatecoins.economy.IEconomy;
 import net.j4c0b3y.ultimatecoins.utils.Metadata;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -12,22 +14,46 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+
 public class Coin {
+
     @Getter private final String id;
     @Getter private final double value;
     @Getter private final Material material;
     @Getter private final int model;
 
-    private final YamlDocument settings;
+
+    @Getter private final IEconomy coinEconomy;
 
     public Coin(String id) {
+
+        UltimateCoins plugin = UltimateCoins.getInstance();
+
+        YamlDocument settings = plugin.getCoinSettings();
+
         this.id = id;
-        this.settings = UltimateCoins.getInstance().getSettings();
         this.value = settings.getDouble("coins." + id + ".value");
         this.material = Enum.valueOf(Material.class, settings.getString("coins." + id + ".material"));
         this.model = settings.getInt("coins." + id + ".model");
+
+        String economyType = settings.getString("coins." + id + ".economy").toUpperCase();
+
+        if (economyType.equals("VAULT")) {
+            this.coinEconomy = plugin.getEconomyManager()
+                    .getVaultEconomy();
+
+        } else if (economyType.equals("COINSENGINE")) {
+            this.coinEconomy = plugin.getEconomyManager()
+                    .getCoinsEngineEconomy();
+
+        }else { //Default. I will add switch to this when more economies are added
+            this.coinEconomy = plugin.getEconomyManager()
+                    .getVaultEconomy();
+        }
     }
 
+
+    //uses coin material and model to create a new itemstack
     public ItemStack toItemStack() {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
@@ -40,8 +66,13 @@ public class Coin {
         return item;
     }
 
+    //method to spawn coin
     public void spawn(Location location, Player killer, Player victim) {
-        Item item = dropItem(location, toItemStack(), settings.getBoolean("drop.naturally"));
+
+        //placeholder for actual config info
+        boolean dropNaturally = MainConfig.CoinSection.RANDOM_OFFSET;
+
+        Item item = dropItem(location, toItemStack(), dropNaturally);
         if(item == null) return;
 
         Metadata.set(item, "coin_id", id);
@@ -49,10 +80,12 @@ public class Coin {
         Metadata.set(item, "coin_victim", victim != null ? victim.getUniqueId().toString() : null);
     }
 
+
     private Item dropItem(Location location, ItemStack item, boolean naturally) {
         World world = location.getWorld();
         if (world == null) return null;
 
         return naturally ? location.getWorld().dropItemNaturally(location, item) : location.getWorld().dropItem(location, item);
     }
+
 }

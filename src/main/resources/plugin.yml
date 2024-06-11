@@ -1,9 +1,8 @@
-name: @name@
-description: @description@
-version: @version@
+name: UltimateCoins
+version: '${project.version}'
 main: net.j4c0b3y.ultimatecoins.UltimateCoins
-api-version: 1.20
-author: J4C0B3Y
+api-version: '1.20'
+depend: [Vault]
 softdepend:
   - MythicMobs
   - WorldGuard

@@ -1,6 +1,6 @@
 package net.j4c0b3y.ultimatecoins.party;
 
-public enum PickupType {
+public enum CoinDistributionType {
     INDIVIDUAL,
     SHARED,
     SPLIT

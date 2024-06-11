@@ -1,18 +1,23 @@
-package net.j4c0b3y.ultimatecoins.coins;
+package net.j4c0b3y.ultimatecoins.managers;
 
 import lombok.experimental.UtilityClass;
-import net.j4c0b3y.ultimatecoins.UltimateCoins;
+import net.j4c0b3y.ultimatecoins.coins.Coin;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import net.j4c0b3y.ultimatecoins.UltimateCoins;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 @UtilityClass
-public class Coins {
+public class CoinManager {
     private static final UltimateCoins plugin = UltimateCoins.getInstance();
 
     public List<Coin> getAll() {
-        return plugin.getSettings().getSection("coins").getRoutesAsStrings(false).stream().map(Coin::new).toList();
+        return plugin.getCoinSettings().getSection("coins").getRoutesAsStrings(false).stream().map(Coin::new).toList();
     }
 
     public List<Coin> sort(List<Coin> coins, SortType type) {
