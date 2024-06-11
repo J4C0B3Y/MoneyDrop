@@ -1,7 +1,5 @@
 # UltimateCoins
 
-A spigot plugin made for Tonierbobcat966.
-
 ## Permissions
 - ultimatecoins.admin - reload command
 - ultimatecoins.percentage.\<number\> - percentage of coins dropped on death
@@ -9,164 +7,79 @@ A spigot plugin made for Tonierbobcat966.
 
 ## config.yml
 ```yaml
-pickup:
-  notify:
-    # Should players be notified when they pick up coins?
-    enabled: true
+config-version: 1
 
-    # What should the notification say?
-    message: "<green>You picked up $<amount>."
-
-    # Should the number have no decimals?
-    whole: true
-
-  hologram:
-    # Should pick up holograms be enabled?
-    enabled: true
-
-    # What should the hologram say?
-    text: "<green>+<amount>"
-
-    # Should the number have no decimals?
-    whole: true
-
-    # How long should the hologram last for in ticks?
-    # 20 ticks = 1 second
-    duration: 16
-
-    # How far above the coins should the hologram spawn?
-    y-offset: 1.5
-
-    # How far away should the hologram spawn relative to the player?
-    distance: 1
-
-    rise:
-      # Should hologram rise?
-      enabled: true
-
-      # How high in blocks should the hologram rise?
-      amount: 1
-
-  sound:
-    # Should a sound play when a player picks up coins?
-    enabled: true
-
-    # What sound should play?
-    # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html
-    type: ENTITY_EXPERIENCE_ORB_PICKUP
-
-    # At what pitch should the sound play?
-    pitch: 1.2
-
-    # At what volume should the sound play?
-    volume: 0.5
-
-  # Should players be able to pick up coins dropped by other players?
-  others: false
-
-  # Should the victim be able to pick up coins they dropped?
-  victim: true
-
-drop:
-  # Should the drops merge together?
-  merge: false
-
-  # Should the drops be dropped with a random offset?
-  naturally: false
-
-  # Should passive mobs drop coins?
-  passive: false
-
-party:
-  # Should MMOCore party integration be enabled?
-  # Requires MMOCore & MythicLib installed.
+# Should players drop money on death?
+playersLoseMoneyOnDeath:
   enabled: true
-
-  # The amount of coins dropped will be multiplied by
-  # this number for each player that's in the party.
-  multiplier: 1.2
-
-  # INDIVIDUAL - Only the player gets the coins.
-  # SHARED - Each player in the party gets the coins.
-  # SPLIT - The coins are split evenly between the party.
-  pickup: SPLIT
+  percentage: 10
 
 coins:
-  # Name of the coin, can be anything.
-  gold:
-    # What material should this coin be?
-    # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
-    material: GOLD_INGOT
+  #This is the currency that is used when a coin uses COINENGINE
+  coinsengine-currency: "coins"
+  # Should MMOCore party integration be enabled?
+  # Requires MMOCore & MythicLib installed.
+  mmocore-party-integration:
+    enabled: true
 
-    # How much should this coin be worth?
-    value: 5
+    # The amount of coins dropped will be multiplied by
+    # this number for each player that's in the party.
+    multiplier: 1.2
 
-    # What custom model data should this coin have?
-    # Set to 0 to disable
-    model: 1
-  iron:
-    material: IRON_INGOT
-    value: 3
-    model: 1
-  copper:
-    material: COPPER_INGOT
-    value: 1
-    model: 1
+    # INDIVIDUAL - Only the player gets the coins.
+    # SHARED - Each player in the party gets the coins.
+    # SPLIT - The coins are split evenly between the party.
+    pickup: SPLIT
 
-death:
-  # Player death
-  player:
-    notify:
-      # Should players be notified when they drop coins on death?
+  #notifies player in chat when they pick up a coin
+  notify-player-on-pickup: true
+
+  # Should the number have no decimals? WILL BE CHANGED WHEN EACH COIN HAS AN ECONOMY VAULT DEFAULTS TO DECIMAL.
+  #OTHER ECONOMY SETTINGS CAN BE SET WHEN CREATING A COIN
+  whole: true
+
+  # Should the drops merge together?
+  coin-merging: false
+
+  # Should the drops be dropped with a random offset?
+  random-offset: false
+
+  # Should players be able to pick up coins dropped by other players?
+  can-players-pickup-others: false
+
+  # Should the victim be able to pick up coins they dropped?
+  can-player-pickup-own: true
+
+  pickup-sound:
+    enabled: true
+    sound: ENTITY_EXPERIENCE_ORB_PICKUP
+    #values from 0-2
+    pitch: 1.2
+    #values from 0-1
+    volume: 0.5
+
+  hologram-animation:
+    enabled: true
+
+    hologram-text: "+%currency_symbol%%amount%"
+
+    #In ticks
+    duration: 16
+    y-offset: 1.5
+    distance-from-player: 1
+
+    hologram-rise:
       enabled: true
+      amount: 1
 
-      # What should the notification say?
-      message: "<red>You dropped $<amount>."
-
-      # Should the number have no decimals?
-      whole: true
-
-    # How much of a player's balance should be dropped on death?
-    percentage: 10
-
-  mob:
-    # Vanilla mob death
-    vanilla:
-      # Default drop
-      default:
-        # How many coins should drop?
-        # Separate two numbers with a hyphen to make it a range.
-        # Example: 1-5 picks a random number between 5 and 10.
-        amount: 13
-
-        # What coins should drop?
-        # Set to [] to automatically calculate the coins.
-        # Format: <percent>% <coin>
-        # If coins don't add up to 100%, the player will get fewer coins.
-        coins:
-          - 50% copper
-          - 50% gold
-      zombie:
-        amount: 20
-        coins: []
-
-    # Mythic mob death
-    mythic:
-      # Default drop
-      default:
-        amount: 5-10
-        coins:
-          - 20% copper
-          - 80% gold
-      SkeletalMinion:
-        amount: 10
-        coins:
-          - 50% gold
-          - 30% iron
-          - 20% copper
+    # Should the number have no decimals? WILL BE CHANGED WHEN EACH COIN HAS AN ECONOMY VAULT DEFAULTS TO DECIMAL.
+    #OTHER ECONOMY SETTINGS CAN BE SET WHEN CREATING A COIN
+    whole: true
 
 messages:
   no-permission: "<red>No Permission."
   usage: "<red>Usage: /<alias> <reload>"
   reloaded: "<green>Reloaded (<time>ms)"
+  player-death-message: "<red>You dropped $<amount>."
+  coin-pickup-message: "You picked up %currency_symbol%%amount%."
 ```
