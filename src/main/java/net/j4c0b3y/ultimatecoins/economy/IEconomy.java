@@ -6,12 +6,11 @@ public interface IEconomy {
 
     void addBalance(final Player player, final double amount);
 
-    String getIdentifier();
+    String getName();
 
     String getSymbol();
 
-    String getName();
-
+    boolean wholeNumbersEnabled();
     //add more getters
 }
 

@@ -21,11 +21,12 @@ public class EconomyManager {
 	//add null check
 
 	public void setupEconomy() {
+
 		this.vaultEconomy = new VaultEconomy();
 
+		//coins is the default currency that coinengine creates on first start up
 		String currencyName = "coins";
 		this.coinsEngineEconomy = new CoinsEngineEconomy(currencyName);
-
 
 	}
 }

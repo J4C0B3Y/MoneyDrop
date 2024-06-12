@@ -1,6 +1,7 @@
 package net.j4c0b3y.ultimatecoins.economy.impl;
 
 import net.j4c0b3y.ultimatecoins.UltimateCoins;
+import net.j4c0b3y.ultimatecoins.config.MainConfig;
 import net.j4c0b3y.ultimatecoins.economy.IEconomy;
 import org.bukkit.entity.Player;
 
@@ -12,8 +13,8 @@ public class VaultEconomy implements IEconomy {
 	}
 
 	@Override
-	public String getIdentifier() {
-		return "vault";
+	public String getName() {
+		return UltimateCoins.getInstance().getEconomy().getName();
 	}
 
 	@Override
@@ -22,7 +23,7 @@ public class VaultEconomy implements IEconomy {
 	}
 
 	@Override
-	public String getName() {
-		return UltimateCoins.getInstance().getEconomy().getName();
+	public boolean wholeNumbersEnabled() {
+		return MainConfig.IntegrationSettings.VAULT_ECO_WHOLE_NUMBERS;
 	}
 }

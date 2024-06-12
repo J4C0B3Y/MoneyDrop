@@ -1,18 +1,22 @@
 config-version: 1
 
+############################
+#   Integration Settings   #
+############################
 
-
-# Should players drop money on death?
-playersLoseMoneyOnDeath:
-  enabled: true
-  percentage: 10
-
-coins:
-  #This is the currency that is used when a coin uses COINENGINE
+currency-settings:
+  # This is the currency that is used when a coin uses COINENGINE
   coinsengine-currency: "coins"
-  # Should MMOCore party integration be enabled?
-  # Requires MMOCore & MythicLib installed.
-  mmocore-party-integration:
+
+  # Ddisplay
+  vault-uses-whole-numbers: false
+  coinsengine-uses-whole-numbers: true
+
+# Should MMOCore party integration be enabled?
+# Requires MMOCore & MythicLib installed.
+mmocore-integration:
+  # Should parties change coin dropping logic
+  party:
     enabled: true
 
     # The amount of coins dropped will be multiplied by
@@ -24,24 +28,34 @@ coins:
     # SPLIT - The coins are split evenly between the party.
     pickup: SPLIT
 
-  #notifies player in chat when they pick up a coin
-  notify-player-on-pickup: true
 
-  # Should the number have no decimals? WILL BE CHANGED WHEN EACH COIN HAS AN ECONOMY VAULT DEFAULTS TO DECIMAL.
-  #OTHER ECONOMY SETTINGS CAN BE SET WHEN CREATING A COIN
-  whole: true
+
+########################
+#   General Settings   #
+########################
+
+# Should players drop coins on death?
+playersLoseMoneyOnDeath:
+  enabled: true
+  percentage: 10
+
+# Should players be able to pick up coins dropped by other players?
+can-players-pickup-others: false
+
+# Should the victim be able to pick up coins they dropped?
+can-player-pickup-own: true
+
+
+
+coins:
+  # notifies player in chat when they pick up a coin
+  notify-player-on-pickup: true
 
   # Should the drops merge together?
   coin-merging: false
 
   # Should the drops be dropped with a random offset?
   random-offset: false
-
-  # Should players be able to pick up coins dropped by other players?
-  can-players-pickup-others: false
-
-  # Should the victim be able to pick up coins they dropped?
-  can-player-pickup-own: true
 
   pickup-sound:
     enabled: true
@@ -56,7 +70,7 @@ coins:
 
     hologram-text: "+%currency_symbol%%amount%"
 
-    #In ticks
+    # In ticks
     duration: 16
     y-offset: 1.5
     distance-from-player: 1
@@ -64,10 +78,6 @@ coins:
     hologram-rise:
       enabled: true
       amount: 1
-
-    # Should the number have no decimals? WILL BE CHANGED WHEN EACH COIN HAS AN ECONOMY VAULT DEFAULTS TO DECIMAL.
-    #OTHER ECONOMY SETTINGS CAN BE SET WHEN CREATING A COIN
-    whole: true
 
 messages:
   no-permission: "<red>No Permission."

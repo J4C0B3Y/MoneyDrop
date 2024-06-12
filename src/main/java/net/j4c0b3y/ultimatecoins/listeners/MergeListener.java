@@ -10,7 +10,7 @@ public class MergeListener implements Listener {
 
     @EventHandler
     public void onMerge(ItemMergeEvent event) {
-        if (MainConfig.CoinSection.MERGING) return;
+        if (MainConfig.GeneralSettings.MERGING) return;
         if (!Metadata.has(event.getEntity(), "coin_id")) return;
 
         event.setCancelled(true);

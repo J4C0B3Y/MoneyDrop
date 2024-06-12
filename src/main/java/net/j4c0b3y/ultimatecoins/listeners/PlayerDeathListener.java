@@ -25,10 +25,10 @@ public class PlayerDeathListener implements Listener {
         Player player = event.getEntity();
         Player killer = player.getKiller();
 
-        if (MainConfig.GeneralSection.MONEY_DROP_ON_DEATH_ENABLED) return;
+        if (MainConfig.GeneralSettings.MONEY_DROP_ON_DEATH_ENABLED) return;
         if (plugin.isWorldGuardHook() && WorldGuardUtils.checkFlag(player, plugin.getPlayerFlag(), StateFlag.State.DENY)) return;
 
-        double percentage = MainConfig.GeneralSection.MONEY_DROP_ON_DEATH_PERCENTAGE;
+        double percentage = MainConfig.GeneralSettings.MONEY_DROP_ON_DEATH_PERCENTAGE;
         percentage = PermissionUtils.getDouble(player, "ultimatecoins.percentage", percentage);
 
         double amount = plugin.getEconomy().getBalance(player) * percentage / 100;
@@ -36,19 +36,24 @@ public class PlayerDeathListener implements Listener {
         if (Parties.isEnabled()) amount *= Parties.getMultiplier(player);
 
         CoinManager.spawn(CoinManager.fromAmount(amount), player.getLocation(), killer, player);
+
+        //add logic to detemine which economy
         plugin.getEconomy().withdrawPlayer(player, amount);
 
-        //if (settings.getBoolean("death.player.notify.enabled")) notify(player, amount);
+
+        //notify method needs to be reimplemented
+
+        /*if (settings.getBoolean("death.player.notify.enabled")) {
+            economy.wholeNumbersEnabled();
+        }*/
     }
 
-    //Needs to get reimplemented
-
-    private void notify(Player player, double value) {
+    /*private void notify(Player player, double value) {
         String decimal = String.valueOf(BigDecimal.valueOf(value).setScale(2, RoundingMode.HALF_UP).doubleValue());
         String whole = String.valueOf((int) value);
-        //String amount = settings.getBoolean("death.player.notify.whole") ? whole : decimal;
-        String amount = whole;
-        //Audience audience = plugin.getAdventure().player(player);
-        //audience.sendMessage(plugin.getMini().deserialize(settings.getString("death.player.notify.message").replace("<amount>", amount)));
-    }
+        String amount = settings.getBoolean("death.player.notify.whole") ? whole : decimal;
+
+        Audience targetPlayer = plugin.getAdventure().player(player);
+        targetPlayer.sendMessage(plugin.getMini().deserialize(MainConfig.MessageSection.PLAYER_DEATH_MESSAGE_TEXT).replace("<amount>", amount));
+    }*/
 }

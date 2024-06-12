@@ -38,20 +38,16 @@ public class Coin {
 
         String economyType = settings.getString("coins." + id + ".economy").toUpperCase();
 
-        if (economyType.equals("VAULT")) {
-            this.coinEconomy = plugin.getEconomyManager()
-                    .getVaultEconomy();
-
-        } else if (economyType.equals("COINSENGINE")) {
-            this.coinEconomy = plugin.getEconomyManager()
-                    .getCoinsEngineEconomy();
-
-        }else { //Default. I will add switch to this when more economies are added
-            this.coinEconomy = plugin.getEconomyManager()
-                    .getVaultEconomy();
+        //This is kept as switch in order to add more economy types
+        switch (economyType) {
+            case "COINSENGINE":
+                this.coinEconomy = plugin.getEconomyManager().getCoinsEngineEconomy();
+                break;
+            default: //default to vault economy if economyType is invaild
+                this.coinEconomy = plugin.getEconomyManager().getVaultEconomy();
+                break;
         }
     }
-
 
     //uses coin material and model to create a new itemstack
     public ItemStack toItemStack() {
@@ -70,7 +66,7 @@ public class Coin {
     public void spawn(Location location, Player killer, Player victim) {
 
         //placeholder for actual config info
-        boolean dropNaturally = MainConfig.CoinSection.RANDOM_OFFSET;
+        boolean dropNaturally = MainConfig.GeneralSettings.RANDOM_OFFSET;
 
         Item item = dropItem(location, toItemStack(), dropNaturally);
         if(item == null) return;

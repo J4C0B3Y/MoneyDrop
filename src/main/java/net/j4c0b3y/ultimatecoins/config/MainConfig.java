@@ -8,17 +8,25 @@ public class MainConfig {
 
     static YamlDocument config = plugin.getConfigFile();
 
-    public static class GeneralSection {
-        public static Boolean MONEY_DROP_ON_DEATH_ENABLED = config.getBoolean("playersLoseMoneyOnDeath.enabled");
-        public static Double MONEY_DROP_ON_DEATH_PERCENTAGE = config.getDouble("playersLoseMoneyOnDeath.percentage");
+    public static class IntegrationSettings {
+
+        public static String COINSENGINE_CURRENCY = config.getString("currency-settings.coinsengine-currency");
+
+        public static boolean VAULT_ECO_WHOLE_NUMBERS = config.getBoolean("currency-settings.vault-uses-whole-numbers");
+        public static boolean COINSENGINE_ECO_WHOLE_NUMBERS = config.getBoolean("currency-settings.coinsengine-uses-whole-numbers");
+
+        public static Boolean MMOCORE_PARTY_INTEGRATION_ENABLED = config.getBoolean("mmocore-integration.party.enabled");
+        public static Double MMOCORE_PARTY_INTEGRATION_MULTIPLIER = config.getDouble("mmocore-integration.party.multiplier");
+        public static String MMOCORE_PARTY_INTEGRATION_DISTRIBUTION_TYPE = config.getString("mmocore-integration.party.pickup");
+
     }
 
-    public static class CoinSection {
-        //public static String COINSENGINE_CURRENCY = config.getString("coins.coinsengine-currency");
+    public static class GeneralSettings {
 
-        public static Boolean MMOCORE_PARTY_INTEGRATION_ENABLED = config.getBoolean("coins.mmocore-party-integration.enabled");
-        public static Double MMOCORE_PARTY_INTEGRATION_MULTIPLIER = config.getDouble("coins.mmocore-party-integration.multiplier");
-        public static String MMOCORE_PARTY_INTEGRATION_DISTRIBUTION_TYPE = config.getString("coins.mmocore-party-integration.pickup");
+
+        public static Boolean MONEY_DROP_ON_DEATH_ENABLED = config.getBoolean("playersLoseMoneyOnDeath.enabled");
+        public static Double MONEY_DROP_ON_DEATH_PERCENTAGE = config.getDouble("playersLoseMoneyOnDeath.percentage");
+
 
         public static Boolean NOTIFY_PICKUP = config.getBoolean("coins.notify-player-on-pickup");
         public static Boolean MERGING = config.getBoolean("coins.coin-merging");

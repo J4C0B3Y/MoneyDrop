@@ -17,7 +17,7 @@ public class Parties {
         AbstractParty party = getParty(player);
 
         if (hasPlayers(party)) {
-            return Math.pow(MainConfig.CoinSection.MMOCORE_PARTY_INTEGRATION_MULTIPLIER, party.getOnlineMembers().size());
+            return Math.pow(MainConfig.IntegrationSettings.MMOCORE_PARTY_INTEGRATION_MULTIPLIER, party.getOnlineMembers().size());
         }
 
         return 1;
@@ -36,7 +36,7 @@ public class Parties {
     }
 
     public boolean isEnabled() {
-        return plugin.isMmoHook() && MainConfig.CoinSection.MMOCORE_PARTY_INTEGRATION_ENABLED;
+        return plugin.isMmoHook() && MainConfig.IntegrationSettings.MMOCORE_PARTY_INTEGRATION_ENABLED;
     }
 
     public AbstractParty getParty(Player player) {
